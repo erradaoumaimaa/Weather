@@ -74,7 +74,11 @@ function App() {
           
           {/* end_Search */}
           <div className="w-full max-w-screen-sm bg-purple p-10 mt-16 rounded-lg ring-8 ring-white ring-opacity-40">
+                   {/* Display current day and time */}
+                   <p className="flex mt-4 text-4xl items-center justify-center font-extrabold">{getCurrentDayAndTime()}</p>
+            
             <div className="flex justify-between">
+        
               <div className="flex flex-col mt-2">
                 <span className="text-6xl font-bold text-white">{weather.current.temp_c && <p>{weather.current.temp_c}°c</p>}</span>
                 <span className="font-semibold mt-1 text-white">{weather.location.name}, {weather.location.country}</span>
@@ -91,9 +95,7 @@ function App() {
 
             </div>
             
-            {/* Display current day and time */}
-            <p className="flex mt-4 text-5xl items-center justify-center text-extrabold">{getCurrentDayAndTime()}</p>
-            
+           
             {/* Display hourly forecast */}
             <div className="flex justify-between mt-12">
             {weather.forecast.forecastday[0].hour.slice(0, 4).map((hourData, index) => {

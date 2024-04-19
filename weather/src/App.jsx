@@ -98,18 +98,22 @@ function App() {
            
             {/* Display hourly forecast */}
             <div className="flex justify-between mt-12">
-            {weather.forecast.forecastday[0].hour.slice(0, 4).map((hourData, index) => {
-            const nextHour = getNextHour(index, 1, 24); 
+          {weather.forecast.forecastday[0].hour.slice(0, 4).map((hourData, index) => {
+            const nextHour = getNextHour(index, 1, 24);
+            const isDaytime = nextHour.includes('AM');
+            const iconUrl = isDaytime ? hourData.condition.icon.replace('/night/', '/day/') : hourData.condition.icon;
+
             return (
               <div key={index} className="flex flex-col items-center">
                 <span className="font-bold text-lg">{hourData.temp_c}°C</span>
-                <img className="w-24 h-24" src={hourData.condition.icon} alt={hourData.condition.text}/>
+                <img className="w-24 h-24" src={iconUrl} alt={hourData.condition.text} />
                 <span className="text-xs font-bold text-white-400">{hourData.condition.text}</span>
                 <span className="font-bold mt-1 text-sm">{nextHour}</span>
               </div>
-            );
-          })}
-          </div>
+    );
+  })}
+</div>
+
 
           </div>
             {/* Display upcoming days for a week */}

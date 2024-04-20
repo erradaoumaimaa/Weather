@@ -118,7 +118,7 @@ function App() {
           </div>
             {/* Display upcoming days for a week */}
             <div className="flex flex-col space-y-6 w-full max-w-screen-sm bg-purple p-10 mt-10 rounded-lg ring-8 ring-white ring-opacity-40">
-              <p className='font-extrabold uppercase font-robirto text-2xl'>Prévision sur 7 jours</p>
+              <p className='font-extrabold uppercase font-robirto text-2xl'>7 day forecast</p>
             {[...Array(7)].map((_, index) => {
             const forecastDay = weather.forecast.forecastday[index];
             if (!forecastDay) return null; 

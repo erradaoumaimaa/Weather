@@ -97,8 +97,8 @@ function App() {
             {/* Display hourly forecast */}
             <div className="flex justify-between mt-12">
   {weather.forecast.forecastday[0].hour.slice(0, 4).map((hourData, index) => {
-    const nextHour = (new Date()).getHours() + index + 1; // Assuming index starts from 0
-    const formattedHour = nextHour < 10 ? `0${nextHour}` : nextHour; // Add leading zero if needed
+    const nextHour = (new Date()).getHours() + index + 1; 
+    const formattedHour = nextHour < 10 ? `0${nextHour}` : nextHour; 
     const timeFormat = `${formattedHour} h`;
     const iconUrl = hourData.condition.icon.replace('/night/', '/day/');
 

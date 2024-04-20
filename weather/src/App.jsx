@@ -35,16 +35,14 @@ function App() {
     return date.toLocaleString('en-US', options);
   };
 
-  const getNextHour = (index, increment, limit) => {
-    const date = new Date();
-    const currentHour = date.getHours();
-    let nextHour = currentHour + index + increment;
-    if (nextHour >= limit) {
-      nextHour -= limit;
+  function getNextHour(currentHour, increment, maxHour) {
+    let nextHour = currentHour + increment;
+    if (nextHour > maxHour) {
+      nextHour -= maxHour;
     }
-    date.setHours(nextHour, 0); 
-    return date.toLocaleTimeString([], { hour: 'numeric', minute: 'numeric', hour12: true });
-  };
+    return nextHour + ' ' + (nextHour >= 12 ? 'PM' : 'AM');
+  }
+  
   
   
   const getNextDay = (daysToAdd) => {
@@ -98,31 +96,35 @@ function App() {
            
             {/* Display hourly forecast */}
             <div className="flex justify-between mt-12">
-          {weather.forecast.forecastday[0].hour.slice(0, 4).map((hourData, index) => {
-            const nextHour = getNextHour(index, 1, 24);
-            const isDaytime = nextHour.includes('AM');
-            const iconUrl = isDaytime ? hourData.condition.icon.replace('/night/', '/day/') : hourData.condition.icon;
+  {weather.forecast.forecastday[0].hour.slice(0, 4).map((hourData, index) => {
+    const nextHour = (new Date()).getHours() + index + 1; // Assuming index starts from 0
+    const formattedHour = nextHour < 10 ? `0${nextHour}` : nextHour; // Add leading zero if needed
+    const timeFormat = `${formattedHour} h`;
+    const iconUrl = hourData.condition.icon.replace('/night/', '/day/');
 
-            return (
-              <div key={index} className="flex flex-col items-center">
-                <span className="font-bold text-lg">{hourData.temp_c}°C</span>
-                <img className="w-24 h-24" src={iconUrl} alt={hourData.condition.text} />
-                <span className="text-xs font-bold text-white-400">{hourData.condition.text}</span>
-                <span className="font-bold mt-1 text-sm">{nextHour}</span>
-              </div>
+    return (
+      <div key={index} className="flex flex-col items-center">
+        <span className="font-bold mt-1 text-sm">{timeFormat}</span>
+        <img className="w-24 h-24" src={iconUrl} alt={hourData.condition.text} />
+        <span className="font-bold text-lg">{hourData.temp_c}°C</span>
+      </div>
     );
   })}
 </div>
 
 
+
+
           </div>
             {/* Display upcoming days for a week */}
             <div className="flex flex-col space-y-6 w-full max-w-screen-sm bg-purple p-10 mt-10 rounded-lg ring-8 ring-white ring-opacity-40">
+              <p className='font-extrabold uppercase font-robirto text-2xl'>Prévision sur 7 jours</p>
             {[...Array(7)].map((_, index) => {
             const forecastDay = weather.forecast.forecastday[index];
             if (!forecastDay) return null; 
             return (
               <div key={index} className="flex justify-between items-center">
+              
                 <span className="font-bold text-lg w-1/4">{getNextDay(index)}</span>
                 <div className="flex items-center justify-end w-1/4 pr-10">
                 <span className="font-bold">{forecastDay.day.avghumidity} %</span>
